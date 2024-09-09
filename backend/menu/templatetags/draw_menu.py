@@ -23,8 +23,7 @@ def get_active_and_open_items(menu_items, current_url):
     open_items = set()
 
     for item in menu_items:
-        print(item.get_url())
-        if '/' + str(item.get_url()) + '/' == current_url:
+        if str(item.get_url()).strip('/') == current_url.strip('/'):
             active_item = item
             break
 
@@ -40,7 +39,6 @@ def get_active_and_open_items(menu_items, current_url):
 def draw_menu(context, menu_name):
     """Создает меню с заданным именем из шаблона"""
     current_url = context['request'].path
-    print(current_url)
     menu_items = MenuItem.objects.filter(menu_name=menu_name).prefetch_related('children')
     active_item, open_items = get_active_and_open_items(menu_items, current_url)
     menu_tree = build_menu_tree(menu_items.filter(parent__isnull=True), active_item, open_items)

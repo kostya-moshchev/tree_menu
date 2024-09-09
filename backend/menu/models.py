@@ -14,4 +14,6 @@ class MenuItem(models.Model):
 
     def get_url(self):
         """Возвращает URL для пункта меню."""
+        if self.named_url:
+            return reverse(f'menu:{self.named_url}', kwargs={'active_item': self.named_url})
         return self.url
